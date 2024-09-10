@@ -1,0 +1,8 @@
+﻿a.button {
+    padding: 10px 10px;
+    margin: 10px 6px;
+    border: green;
+    border-radius: 30%;
+    color: buttontext;
+    text-decoration: none;
+}
