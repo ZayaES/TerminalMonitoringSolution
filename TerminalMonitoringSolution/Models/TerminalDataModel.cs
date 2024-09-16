@@ -13,10 +13,8 @@ namespace TerminalMonitoringSolution.Models
         [Required]
         public SignalEnum Signal { get; set; }
 
-        [Required]
         public string Location { get; set; } = "[ , ]";
 
-        [Required]
         public string IpAddress { get; set; } = string.Empty;
 
         [Required]

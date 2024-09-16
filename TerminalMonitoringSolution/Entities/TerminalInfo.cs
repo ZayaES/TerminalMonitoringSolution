@@ -11,7 +11,7 @@ namespace TerminalMonitoringSolution.Models
         public SignalEnum Signal { get; set; }
         public string LocationExact { get; set; } = "[ , ]";
         public string LocationApprox { get; set; } = string.Empty;
-        public string? IpAddress { get; set; } = string.Empty;
+        public string IpAddress { get; set; } = string.Empty;
         public string TerminalId { get; set; } = string.Empty;
         public Terminal? Terminal { get; set; }
         public string BatteryLevel { get; set; } = string.Empty;

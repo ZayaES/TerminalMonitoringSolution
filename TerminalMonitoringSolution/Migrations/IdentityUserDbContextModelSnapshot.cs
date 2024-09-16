@@ -125,7 +125,7 @@ namespace TerminalMonitoringSolution.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TerminalMonitoringSolution.DataAccess.UserIdentity", b =>
+            modelBuilder.Entity("TerminalMonitoringSolution.DataAccess.AdminIdentity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,7 +249,7 @@ namespace TerminalMonitoringSolution.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
-                    b.HasOne("TerminalMonitoringSolution.DataAccess.UserIdentity", null)
+                    b.HasOne("TerminalMonitoringSolution.DataAccess.AdminIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -258,7 +258,7 @@ namespace TerminalMonitoringSolution.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("TerminalMonitoringSolution.DataAccess.UserIdentity", null)
+                    b.HasOne("TerminalMonitoringSolution.DataAccess.AdminIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -273,7 +273,7 @@ namespace TerminalMonitoringSolution.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TerminalMonitoringSolution.DataAccess.UserIdentity", null)
+                    b.HasOne("TerminalMonitoringSolution.DataAccess.AdminIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -282,7 +282,7 @@ namespace TerminalMonitoringSolution.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("TerminalMonitoringSolution.DataAccess.UserIdentity", null)
+                    b.HasOne("TerminalMonitoringSolution.DataAccess.AdminIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

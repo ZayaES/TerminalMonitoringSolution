@@ -4,7 +4,7 @@ namespace TerminalMonitoringSolution.IRepositories
 {
     public interface ITerminalInfoRepo
     {
-        Task Post(TerminalInfo terminalInfoDetails);
+        Task<bool> Post(TerminalInfo terminalInfoDetails);
         Task<TerminalInfo> Get(string primaryIdentifier);
     }
 }

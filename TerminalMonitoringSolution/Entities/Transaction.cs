@@ -1,15 +1,33 @@
 ﻿using System.Data;
 using TerminalMonitoringSolution.Entity;
+using static TerminalMonitoringSolution.Models.Enums;
+using static TerminalMonitoringSolution.Models.TransactionDTO;
 
 namespace TerminalMonitoringSolution.Entities
 {
     public class Transaction
     {
         public string Id { get; set; } = string.Empty;
-        public DateTime DateLogged {  get; set; }
+        public DateTime TimeLogged {  get; set; }
+        public DateTime TransactionTime { get; set; }
         public string TransactionReference { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public string TerminalId { get; set; } = string.Empty;
+
+        public TransactionType TransactionType { get; set; }
+        private string? _transactionDetails;
+
+        public string TransactionDetails
+        {
+            get
+            {
+                return _transactionDetails;
+            }
+            set
+            {
+                _transactionDetails = value;
+            }
+        }
         private decimal custodianShare;
         public decimal CustodianShare 
         { 

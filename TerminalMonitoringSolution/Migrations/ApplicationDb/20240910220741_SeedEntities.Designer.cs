@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TerminalMonitoringSolution.DataAccess;
 
@@ -11,9 +12,11 @@ using TerminalMonitoringSolution.DataAccess;
 namespace TerminalMonitoringSolution.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240910220741_SeedEntities")]
+    partial class SeedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,8 +103,8 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             ClusterCode = "CC001",
                             ClusterManager = "Manager1",
                             ContactNumber = "123-456-7890",
-                            DateActivated = new DateTime(2024, 9, 11, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1654),
-                            DateCreated = new DateTime(2024, 8, 11, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1588),
+                            DateActivated = new DateTime(2024, 9, 10, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2645),
+                            DateCreated = new DateTime(2024, 8, 10, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2598),
                             Email = "john.doe@example.com",
                             Gender = 1,
                             IncomeAccount = "IA001",
@@ -120,8 +123,8 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             ClusterCode = "CC002",
                             ClusterManager = "Manager2",
                             ContactNumber = "098-765-4321",
-                            DateActivated = new DateTime(2024, 8, 27, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1666),
-                            DateCreated = new DateTime(2024, 7, 11, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1663),
+                            DateActivated = new DateTime(2024, 8, 26, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2652),
+                            DateCreated = new DateTime(2024, 7, 10, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2650),
                             Email = "jane.smith@example.com",
                             Gender = 2,
                             IncomeAccount = "IA002",
@@ -131,20 +134,6 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             Status = 0,
                             Type = 0
                         });
-                });
-
-            modelBuilder.Entity("TerminalMonitoringSolution.Entities.SerialNumberTracker", b =>
-                {
-                    b.Property<string>("EntityType")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LastUsedId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EntityType");
-
-                    b.ToTable("SerialNumberTrackers");
                 });
 
             modelBuilder.Entity("TerminalMonitoringSolution.Entities.Transaction", b =>
@@ -188,9 +177,9 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             Amount = 100.00m,
                             Id = "TR001",
                             TerminalId = "T001",
-                            TimeLogged = new DateTime(2024, 9, 11, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1863),
+                            TimeLogged = new DateTime(2024, 9, 10, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2775),
                             TransactionDetails = "Initial deposit",
-                            TransactionTime = new DateTime(2024, 9, 11, 17, 31, 8, 826, DateTimeKind.Local).AddTicks(1865),
+                            TransactionTime = new DateTime(2024, 9, 10, 22, 7, 41, 141, DateTimeKind.Local).AddTicks(2776),
                             TransactionType = 2
                         },
                         new
@@ -199,9 +188,9 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             Amount = 200.00m,
                             Id = "TR002",
                             TerminalId = "T002",
-                            TimeLogged = new DateTime(2024, 9, 11, 16, 31, 8, 826, DateTimeKind.Local).AddTicks(1875),
+                            TimeLogged = new DateTime(2024, 9, 10, 21, 7, 41, 141, DateTimeKind.Local).AddTicks(2782),
                             TransactionDetails = "Withdrawal request",
-                            TransactionTime = new DateTime(2024, 9, 11, 15, 31, 8, 826, DateTimeKind.Local).AddTicks(1877),
+                            TransactionTime = new DateTime(2024, 9, 10, 20, 7, 41, 141, DateTimeKind.Local).AddTicks(2784),
                             TransactionType = 0
                         });
                 });
@@ -233,14 +222,14 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                         {
                             Id = "T001",
                             CustodianId = "C001",
-                            DateAssigned = new DateTime(2024, 9, 11, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1834),
+                            DateAssigned = new DateTime(2024, 9, 10, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2756),
                             Region = "Region1"
                         },
                         new
                         {
                             Id = "T002",
                             CustodianId = "C002",
-                            DateAssigned = new DateTime(2024, 9, 10, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1839),
+                            DateAssigned = new DateTime(2024, 9, 9, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2759),
                             Region = "Region2"
                         });
                 });
@@ -255,7 +244,6 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IpAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LocationApprox")
@@ -292,7 +280,7 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             LocationExact = "[40.7128, -74.0060]",
                             Signal = 1,
                             TerminalId = "T001",
-                            TimeCreated = new DateTime(2024, 9, 11, 18, 31, 8, 826, DateTimeKind.Local).AddTicks(1944)
+                            TimeCreated = new DateTime(2024, 9, 10, 23, 7, 41, 141, DateTimeKind.Local).AddTicks(2799)
                         },
                         new
                         {
@@ -303,7 +291,7 @@ namespace TerminalMonitoringSolution.Migrations.ApplicationDb
                             LocationExact = "[34.0522, -118.2437]",
                             Signal = 2,
                             TerminalId = "T002",
-                            TimeCreated = new DateTime(2024, 9, 11, 17, 31, 8, 826, DateTimeKind.Local).AddTicks(1949)
+                            TimeCreated = new DateTime(2024, 9, 10, 22, 7, 41, 141, DateTimeKind.Local).AddTicks(2805)
                         });
                 });
 

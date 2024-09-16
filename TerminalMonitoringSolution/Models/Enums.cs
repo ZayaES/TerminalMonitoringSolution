@@ -10,6 +10,7 @@
 
         public enum SignalEnum
         {
+            Inactive,
             Bad,
             Good,
             Excellent
@@ -33,6 +34,14 @@
             TransactionReference,
             TerminalId,
             DateLogged,
+        }
+
+        public enum TransactionType
+        {
+            Withdrawal,
+            Transfer,
+            Deposit,
+            Bills,          
         }
     }
 }

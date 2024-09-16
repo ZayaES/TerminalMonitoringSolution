@@ -50,7 +50,10 @@ namespace TerminalMonitoringSolution.Services
                 return response;
             }
 
-            var claimCreate = await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Email, user.Email));
+            List<Claim> claimList = [];
+            claimList.Add(new Claim(ClaimTypes.Email, user.Email));
+            claimList.Add(new Claim(ClaimTypes.Name, user.UserName ?? user.FirstName));
+            var claimCreate = await _userManager.AddClaimsAsync(newUser, claimList);
 
             if (!claimCreate.Succeeded)
             {
@@ -60,7 +63,7 @@ namespace TerminalMonitoringSolution.Services
 
             IdentityResult roleAdd;
             if (user.IsSuperAdmin)
-                roleAdd = await _userManager.AddToRoleAsync(newUser, "SuperAdmin");
+                roleAdd = await _userManager.AddToRolesAsync(newUser, new List<string>() { "SuperAdmin", "Admin" });
             else
                 roleAdd = await _userManager.AddToRoleAsync(newUser, "Admin");
 
@@ -93,7 +96,7 @@ namespace TerminalMonitoringSolution.Services
             response.Successful = true;
             response.Admin = new List<AdminDTO>()
             {
-                new AdminDTO {  FullName = $"{userGet.FirstName} {middleName}{userGet.MiddleName}{userGet.LastName}",
+                new AdminDTO {  FullName = $"{userGet.FirstName} {middleName}{userGet.LastName}",
                                 Email = userGet.Email,
                                 Username = userGet.UserName}
             };
@@ -152,6 +155,13 @@ namespace TerminalMonitoringSolution.Services
             {
                 response.Successful = false;
                 response.ErrorMessage = "User does not exist";
+                return response;
+            }
+
+            if(userGet.EmailConfirmed == false)
+            {
+                response.Successful = false;
+                response.ErrorMessage = "Email has not been verified";
                 return response;
             }
 

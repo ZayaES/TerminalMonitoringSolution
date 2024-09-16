@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Transactions;
 using TerminalMonitoringSolution.IRepositories;
 using TerminalMonitoringSolution.IServices;
@@ -18,17 +19,30 @@ namespace TerminalMonitoringSolution.Controllers
             _transactions = transactions;
         }
 
-        [HttpGet]
+        [Authorize(Policy = "RequiresSuperAdmin")]
+        [HttpGet("Get")]
         public async Task<IActionResult> Transactions([FromQuery] TxnDTO txn)
         {
-            return Ok(await _transactions.GetAllTransactions(txn));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);               
+            }
+
+            var response = await _transactions.GetAllTransactions(txn);
+            return Ok(response);
         }
 
-        [HttpPost]
 
-        public async Task<IActionResult> Transactions([FromQuery] CustodianTxnDTO custodianTxn)
+        [HttpPost("Post")]
+        public async Task<IActionResult> Transactions([FromBody] TerminalTxnDTO custodianTxn)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _transactions.PostTransaction(custodianTxn);
+            return Ok(response);
         }
     }
 }

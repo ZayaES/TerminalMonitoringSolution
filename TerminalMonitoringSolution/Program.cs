@@ -26,7 +26,10 @@ builder.Services.AddDbContext<IdentityUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    options.UseSqlServer(connectionString);
+    options.EnableSensitiveDataLogging();
+});
 
 builder.Services.AddIdentity<AdminIdentity, UserIdentityRole>(options =>
 {
@@ -67,12 +70,20 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("RequiresZaya", policy => policy.RequireClaim("Email", "heavenphrince@gmail.com"))
+    .AddPolicy("RequiresAdmin", policy => policy.RequireRole("Admin"))
+    .AddPolicy("RequiresSuperAdmin", policy => policy.RequireRole("SuperAdmin"));
+
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITerminalService, TerminalInfoService>();
 builder.Services.AddScoped<ITerminalInfoRepo, TerminalInfoRepo>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ITransactionRepo, TransactionRepo>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ISerialNumberService, SerialNumberService>();
+builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped<IIPAddressService, IPAddressService>();
 
 
 builder.Services.AddCors(c => {
@@ -98,16 +109,19 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.InjectJavascript("C:\\Users\\OBello6\\source\\repos\\Mine\\TerminalMonitoringSolution\\TerminalMonitoringSolution\\wwwroot\\Scripts\\CustomHeader.js");
+    });
 }
 
 app.UseCors("Client Permission");
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

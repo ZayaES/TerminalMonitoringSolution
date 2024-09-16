@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using TerminalMonitoringSolution.Entity;
 using TerminalMonitoringSolution.IRepositories;
 using TerminalMonitoringSolution.IServices;
 using TerminalMonitoringSolution.Models;
@@ -6,22 +7,24 @@ using TerminalMonitoringSolution.Views;
 
 namespace TerminalMonitoringSolution.Services
 {
-    public class TerminalInfoService : ITerminalService
+    public class TerminalService : ITerminalService
     {
-        private readonly ITerminalInfoRepo _termInfoRepo;
+        private readonly ITerminalRepo _terminalRepo;
         private readonly ISerialNumberService _serialNumberService;
         private readonly IIPAddressService _ipAddressService;
 
-        public TerminalInfoService(ITerminalInfoRepo termInfoRepo, ISerialNumberService serialNumberService, IIPAddressService ipAddressService)
+        public TerminalService(ITerminalRepo terminalRepo, ISerialNumberService serialNumberService, IIPAddressService ipAddressService)
         {
-            _termInfoRepo = termInfoRepo;
+            _terminalRepo = terminalRepo;
             _serialNumberService = serialNumberService;
             _ipAddressService = ipAddressService;
         }
-        public async Task<TerminalResponse> Post(TerminalInfoModel terminalDataDetails)
+        public async Task<TerminalResponse> Post(TerminalModel terminalDataDetails)
         {
             try
             {
+                // Change this to terminal Model version
+
                 TerminalInfo newTermInfo = new TerminalInfo
                 {
                     Id = _serialNumberService.GetNextSerialId("TerminalInformation"),
@@ -66,27 +69,27 @@ namespace TerminalMonitoringSolution.Services
 
         public async Task<TerminalResponse> Get(string terminalId)
         {
-            TerminalInfo response;
+            Terminal response;
             try
             {
-                response = await _termInfoRepo.Get(terminalId);
+                response = await _terminalRepo.Get(terminalId);
                 if(response == null)
                 {
                     return new TerminalResponse() { Successful = false, ErrorMessage = "TerminalId does not exist or Terminal has no information" };
                 }
-                TerminalInfoModel actResponse = new TerminalInfoModel
+                TerminalModel actResponse = new TerminalModel
                 {
-                    TerminalId = response.TerminalId,
-                    TimeCreated = response.TimeCreated,
-                    Signal = response.Signal,
-                    Location = response.LocationExact ?? response.LocationApprox,
-                    BatteryLevel = response.BatteryLevel,
-                    IpAddress = response.IpAddress,
+                    Id = response.Id,
+                    CustodianId = response.CustodianId,
+                    CustodianName = response.Custodian.Name.ToString(),
+                    Region = response.Region,
+                    DateAssigned = response.DateAssigned,
+                    TerminalStatus = response.TerminalInfo.FirstOrDefault().Signal,
                 };
 
                 TerminalResponse result = new TerminalResponse()
                 {
-                    TerminalData = new List<TerminalInfoModel>
+                    Terminals = new List<TerminalModel>
                     {
                         actResponse,
                     },

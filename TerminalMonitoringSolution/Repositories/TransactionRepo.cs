@@ -54,5 +54,28 @@ namespace TerminalMonitoringSolution.Repositories
                 return response;
             }
         }
+
+        public async Task<TransactionResponse> PostTransaction(Transaction txn)
+        {
+            TransactionResponse response = new TransactionResponse();
+            try
+            {
+                var result = await _applicationAccessor.Transactions.AddAsync(txn);
+                if (result.State != EntityState.Added)
+                {
+                    response.Successful = false;
+                    response.ErrorMessage = "Unable to add Transaction";
+                }
+
+                await _applicationAccessor.SaveChangesAsync();
+                response.Successful = true;
+                return response;
+            }
+            catch
+            {
+                return response;
+            }
+            
+        }
     }
 }
